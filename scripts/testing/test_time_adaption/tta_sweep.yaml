@@ -1,0 +1,74 @@
+command:
+- srun
+- ${env}
+- ${interpreter}
+- ${program}
+- ${args}
+method: grid
+metric:
+    goal: maximize
+    name: test_time_adaption/after_1_adap_steps_acc
+name: Test-Time Adaption Sweep
+parameters:
+    adapt_exclusively:
+        value: layer3
+    artifact_dir:
+        value: ./wandb_artifacts
+    artifact_name:
+        values:
+        # names of output artifacts of training runs, which have the following form:
+        - model-xxxxxxxx:v1
+        - model-xxxxxxxx:v1
+        - model-xxxxxxxx:v1
+        # v0 = best model (according to joint loss)
+        # v1 = last model (final model after 500 epochs)
+    batch_size:
+        value: 32
+    corruption_type:
+        values:
+        - none
+        - shot_noise
+        - motion_blur
+        - snow
+        - pixelate
+        - gaussian_noise
+        - defocus_blur
+        - brightness
+        - fog
+        - zoom_blur
+        - frost
+        - glass_blur
+        - impulse_noise
+        - contrast
+        - jpeg_compression
+        - elastic_transform
+    data_dir:
+        value: ./datasets
+    epsilon:
+        value: 1
+    fast_dev_run:
+        value: 0
+    gpus:
+        value: 1
+    loss_type:
+        value: swav
+    lr_scaling:
+        value: 0.2
+    num_nodes:
+        value: 1
+    num_steps:
+        value: 10
+    num_workers:
+        value: 8
+    q_generator:
+        value: softmax_normalized
+    temperature:
+        value: 0.75
+    wandb_entity:
+        value: <wandb_username>
+    wandb_log_dir:
+        value: ./wandb_logs
+    wandb_project:
+        value: example_project
+program: src/tta_validation_module.py
+project: example_project
